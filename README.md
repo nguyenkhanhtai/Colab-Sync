@@ -56,12 +56,59 @@ For this toolset to connect to your Google Drive, you need to create an OAuth 2.
 5. A dialog box will appear; click **DOWNLOAD JSON** to download the file to your computer.
 6. Rename the downloaded file to **`credentials.json`** and place it in the root directory of this project.
 
-### 3. Run the Server
-Once installed and with `credentials.json` in place, you can start the server via:
+### 3. Usage
+
+#### Using the Command Line Interface (CLI)
+This project comes with a built-in CLI tool for manual synchronization. Once installed, you can use the `colab` command in your terminal:
+
+- **List all notebooks:**
+  ```bash
+  colab list
+  ```
+- **Push a local notebook to Drive:**
+  ```bash
+  colab push my_notebook.ipynb
+  ```
+- **Pull a notebook from Drive to local:**
+  ```bash
+  colab pull my_notebook.ipynb
+  ```
+- **View directory contents (debug):**
+  ```bash
+  colab dir
+  ```
+
+#### Running the MCP Server
+To start the MCP Server so that AI Assistants can connect to it, run:
 ```bash
-colab-mcp
+python mcp_server/server.py
 ```
-*On the first run, it will open a browser window asking you to authorize the application to access your Google Drive.*
+*Note: On the first run, a browser window will open asking you to authorize the application to access your Google Drive.*
+
+### 4. Setup the MCP Server in AI Clients
+To use this server with AI assistants that support the Model Context Protocol (MCP), you need to add it to your client's configuration file.
+
+#### For Claude Desktop
+Open your Claude Desktop config file (usually located at `%APPDATA%\Claude\claude_desktop_config.json` on Windows or `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS) and add:
+
+```json
+{
+  "mcpServers": {
+    "colab-sync": {
+      "command": "python",
+      "args": ["<ABSOLUTE_PATH_TO_YOUR_PROJECT>/mcp_server/server.py"]
+    }
+  }
+}
+```
+
+#### For Cursor / Other IDEs
+In Cursor, go to **Settings > Features > MCP** and add a new server:
+- **Name**: `colab-sync`
+- **Type**: `command`
+- **Command**: `python <ABSOLUTE_PATH_TO_YOUR_PROJECT>/mcp_server/server.py`
+
+*Note: On the first run, the tool will open a browser window asking you to authorize the application to access your Google Drive. You only need to do this once.*
 
 ## Limitations & Weaknesses
 While this tool makes it highly convenient for an AI to manipulate files directly, the current version has significant limitations that must be noted:
