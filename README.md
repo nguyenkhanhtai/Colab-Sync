@@ -94,10 +94,19 @@ Open your Claude Desktop config file (usually located at `%APPDATA%\Claude\claud
 ```json
 {
   "mcpServers": {
-    "colab-sync": {
-      "command": "python",
-      "args": ["<ABSOLUTE_PATH_TO_YOUR_PROJECT>/mcp_server/server.py"]
-    }
+      "colab-sync": {
+          "command": "python",
+          "args": [
+              "<path_to_your_project>/mcp_server/server.py"
+          ]
+      },
+      "colab-proxy-mcp": { //Colab-proxy-mcp to support the execution of cells
+          "command": "uvx",
+          "args": [
+              "git+https://github.com/googlecolab/colab-mcp"
+          ],
+          "timeout": 30000
+      }
   }
 }
 ```
