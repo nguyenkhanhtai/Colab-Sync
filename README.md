@@ -110,11 +110,45 @@ In Cursor, go to **Settings > Features > MCP** and add a new server:
 
 *Note: On the first run, the tool will open a browser window asking you to authorize the application to access your Google Drive. You only need to do this once.*
 
+#### Running via `uvx` directly from GitHub
+If you have pushed this repository to GitHub, you can run it directly using `uvx` without manual installation.
+However, **you must ensure `server.py` is updated to look for `credentials.json` in a fixed user directory** (e.g., `~/.colab-sync/`) instead of the project root, because `uvx` runs in an isolated temporary environment.
+
+```json
+{
+  "mcpServers": {
+    "colab-sync": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/your-username/Colab-Sync",
+        "colab-mcp"
+      ]
+    }
+  }
+}
+```
+
+## Colab-Sync vs Google's Colab-Proxy-MCP
+While `colab-sync` directly edits files on Google Drive, Google's official `colab-proxy-mcp` works differently. Understanding the difference allows AI agents to use the optimal strategy:
+
+| Feature | `colab-proxy-mcp` (Google) | `colab-sync` (This Project) |
+| :--- | :--- | :--- |
+| **Mechanism** | Connects to an active Chrome/Edge tab via WebSocket/Extension. | Uses Google Drive API to edit the `.ipynb` (JSON) files. |
+| **Code Execution** | **Yes.** Can execute cells and read live output. | **No.** Only modifies text in the background. |
+| **Scope** | Limited to **ONE active tab** currently open in the browser. | Can modify/search **any file** in Google Drive. |
+| **Instant UI Updates** | Yes, you see the changes typing live in the browser. | No, changes happen on the backend Drive file. |
+
+**Usage Strategy for AI Agents:**
+- Always **prioritize `colab-proxy-mcp`** if the file is currently the active tab in the browser, to benefit from code execution and live updates.
+- **Fallback to `colab-sync`** if the file is not currently open, if you need to bulk edit/search multiple files, or if the proxy connection is dropped.
+
 ## Limitations & Weaknesses
 While this tool makes it highly convenient for an AI to manipulate files directly, the current version has significant limitations that must be noted:
 
 - ⚠️ **No Version Control & No Revert Capability:**
   The system currently performs direct overwrites on the files stored in Google Drive. It is not integrated with any version control mechanism (like Git) nor does it provide a way to automatically revert or undo changes. If the AI accidentally overwrites or deletes important code, recovering the previous version is extremely difficult.
 
-- ⚠️ **Cannot Execute Notebooks:**
-  This tool is currently limited to reading and writing raw text (JSON structure). It is not connected to any computational environment (Kernel) on Google Colab or locally. As a result, it **cannot execute (Run)** the Python code inside the notebook or retrieve text outputs and error logs. The user still needs to manually open the Colab web browser and press execute to see the results of the code.
+- ⚠️ **Cannot Execute Notebooks (Standalone):**
+  This tool is currently limited to reading and writing raw text (JSON structure). It is not connected to any computational environment (Kernel) on Google Colab or locally. As a result, it **cannot execute (Run)** the Python code inside the notebook. 
+  *Solution:* Run this server alongside Google's official `colab-proxy-mcp` so the AI can fallback to the proxy when it needs to run code.

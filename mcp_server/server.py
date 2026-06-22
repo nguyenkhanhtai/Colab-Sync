@@ -42,6 +42,18 @@ def list_notebooks() -> str:
 @mcp.tool()
 def read_notebook(filename: str) -> str:
     """
+    This is a tool from the Colab-Sync toolset. It modifies the notebook file directly via Google Drive API.
+    (Note: 'colab-proxy-mcp' works differently by connecting directly to your active Google Colab browser tab via a MCP proxy token and a browser, manipulating the live UI to allow instant updates and code execution.
+    )
+    
+    Usage Strategy:
+    - Use the 'colab-proxy-mcp' tools FIRST if you need to see changes immediately on the active Colab web UI or if you need to execute code.
+    - Use THIS tool (colab-sync) ONLY IF: 
+      1) You want to read/edit files in the background without opening them in the browser.
+      2) colab-proxy-mcp is unavailable/disconnected.
+      3) You do not need to run/execute the cell's code.
+      4) colab-proxy-mcp can only connect to ONE active tab at a time. If you need to edit a file that is NOT currently the active connected tab in your browser, you MUST use this tool (colab-sync).
+    
     Read the structure of a notebook file from Google Drive.
     Returns the contents of the cells in a readable text format.
     """
@@ -68,6 +80,17 @@ def read_notebook(filename: str) -> str:
 @mcp.tool()
 def edit_cell(filename: str, cell_index: int, new_source: str) -> str:
     """
+    This is a tool from the Colab-Sync toolset. It modifies the notebook file directly via Google Drive API.
+    (Note: 'colab-proxy-mcp' works differently by connecting directly to your active Google Colab browser tab via an extension/WebSocket, manipulating the live UI to allow instant updates and code execution).
+    
+    Usage Strategy:
+    - Use the 'colab-proxy-mcp' tools FIRST if you need to see changes immediately on the active Colab web UI or if you need to execute code.
+    - Use THIS tool (colab-sync) ONLY IF: 
+      1) You want to read/edit files in the background without opening them in the browser.
+      2) colab-proxy-mcp is unavailable/disconnected.
+      3) You do not need to run/execute the cell's code.
+      4) colab-proxy-mcp can only connect to ONE active tab at a time. If you need to edit a file that is NOT currently the active connected tab in your browser, you MUST use this tool (colab-sync).
+
     Modify the code/text of a specific cell in a notebook on Drive.
     Parameters:
     - filename: Filename (e.g., my_notebook.ipynb)
@@ -84,6 +107,17 @@ def edit_cell(filename: str, cell_index: int, new_source: str) -> str:
 @mcp.tool()
 def add_cell(filename: str, cell_type: str, source: str, index: int = None) -> str:
     """
+    This is a tool from the Colab-Sync toolset. It modifies the notebook file directly via Google Drive API.
+    (Note: 'colab-proxy-mcp' works differently by connecting directly to your active Google Colab browser tab via an extension/WebSocket, manipulating the live UI to allow instant updates and code execution).
+    
+    Usage Strategy:
+    - Use the 'colab-proxy-mcp' tools FIRST if you need to see changes immediately on the active Colab web UI or if you need to execute code.
+    - Use THIS tool (colab-sync) ONLY IF: 
+      1) You want to read/edit files in the background without opening them in the browser.
+      2) colab-proxy-mcp is unavailable/disconnected.
+      3) You do not need to run/execute the cell's code.
+      4) colab-proxy-mcp can only connect to ONE active tab at a time. If you need to edit a file that is NOT currently the active connected tab in your browser, you MUST use this tool (colab-sync).
+
     Add a new cell to the notebook.
     Parameters:
     - filename: Filename
