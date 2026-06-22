@@ -1,7 +1,7 @@
 # Colab Sync MCP Server
 
 ## Introduction
-The **Colab Sync MCP** project is a Model Context Protocol (MCP) Server that provides a set of automated tools to interact with the `Colab Notebooks` folder on Google Drive. The goal of this project is to allow AI Assistants (such as Claude, Gemini) to directly read, understand, and edit the structure of Jupyter Notebooks (`.ipynb`) right from their source on Google Drive.
+The **Colab Sync MCP** project is a Model Context Protocol (MCP) Server that provides a set of automated tools to interact with the `Colab Notebooks` folder on Google Drive. The goal of this project is to bridge the gap of programming locally with programming on Google Colab. (Note: This is a work in progress and currently has limitations. Please refer to the limitations section for more information.)
 
 ## Core Features
 This system leverages the **Google Drive API** to provide powerful MCP Tools:
