@@ -1,0 +1,17 @@
+{
+    "mcpServers": {
+        "colab-sync": {
+            "command": "python",
+            "args": [
+                "<path_to_your_project>/mcp_server/server.py"
+            ]
+        },
+        "colab-proxy-mcp": {
+            "command": "uvx",
+            "args": [
+                "git+https://github.com/googlecolab/colab-mcp"
+            ],
+            "timeout": 30000
+        },
+    }
+}
