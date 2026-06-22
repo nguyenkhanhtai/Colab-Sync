@@ -110,25 +110,6 @@ In Cursor, go to **Settings > Features > MCP** and add a new server:
 
 *Note: On the first run, the tool will open a browser window asking you to authorize the application to access your Google Drive. You only need to do this once.*
 
-#### Running via `uvx` directly from GitHub
-If you have pushed this repository to GitHub, you can run it directly using `uvx` without manual installation.
-However, **you must ensure `server.py` is updated to look for `credentials.json` in a fixed user directory** (e.g., `~/.colab-sync/`) instead of the project root, because `uvx` runs in an isolated temporary environment.
-
-```json
-{
-  "mcpServers": {
-    "colab-sync": {
-      "command": "uvx",
-      "args": [
-        "--from",
-        "git+https://github.com/your-username/Colab-Sync",
-        "colab-mcp"
-      ]
-    }
-  }
-}
-```
-
 ## Colab-Sync vs Google's Colab-Proxy-MCP
 While `colab-sync` directly edits files on Google Drive, Google's official `colab-proxy-mcp` works differently. Understanding the difference allows AI agents to use the optimal strategy:
 
@@ -149,6 +130,3 @@ While this tool makes it highly convenient for an AI to manipulate files directl
 - ⚠️ **No Version Control & No Revert Capability:**
   The system currently performs direct overwrites on the files stored in Google Drive. It is not integrated with any version control mechanism (like Git) nor does it provide a way to automatically revert or undo changes. If the AI accidentally overwrites or deletes important code, recovering the previous version is extremely difficult.
 
-- ⚠️ **Cannot Execute Notebooks (Standalone):**
-  This tool is currently limited to reading and writing raw text (JSON structure). It is not connected to any computational environment (Kernel) on Google Colab or locally. As a result, it **cannot execute (Run)** the Python code inside the notebook. 
-  *Solution:* Run this server alongside Google's official `colab-proxy-mcp` so the AI can fallback to the proxy when it needs to run code.
