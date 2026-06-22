@@ -98,7 +98,8 @@ Open your Claude Desktop config file (usually located at `%APPDATA%\Claude\claud
           "command": "python",
           "args": [
               "<path_to_your_project>/mcp_server/server.py"
-          ]
+          ],
+          "timeout": 30000
       },
       "colab-proxy-mcp": { //Colab-proxy-mcp to support the execution of cells
           "command": "uvx",
